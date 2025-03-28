@@ -1,0 +1,33 @@
+{% extends "app.html" %}
+
+{% block content %}
+    <h1>Lista de Inscrições de Última Hora</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Escola</th>
+                <th>Turma</th>
+                <th>Qtd</th>
+                <th>Presentes</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscricao in inscricoes %}
+                <tr>
+                    <td>{{ inscricao.get_grupo }}</td>
+                    <td>
+                    </td>
+                    <td>{{ inscricao.escola.nome }}</td>
+                    <td>{{ inscricao.turma|default_if_none:"N/A" }}</td>
+                    <td>{{ inscricao.nalunos }}</td>
+                    <td>{{ inscricao.presentes }}</td>
+                    <td>
+                        <a href="{% url 'inscricoes:editar_inscricao_ultima_hora_detail' inscricao.id %}" class="button is-small is-info">Editar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

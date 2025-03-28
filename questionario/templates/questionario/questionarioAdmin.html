@@ -1,0 +1,81 @@
+{% extends 'app.html' %}
+{% load configuracao_tags %}
+{% load django_tables2 %}
+{% load static %}
+
+{% block title %}- Consultar Questionários
+{% endblock title %}
+
+{% block content %}
+<div class="columns">
+       <div class="column is-3">
+{% csrf_token %}
+  <form method="get">
+            <div class="menu">
+                <p class="menu-label">Filtros Questionários</p>
+                <ul class="menu-list">
+                    <div class="field">
+                        <!---->
+                        <div class="control has-icons-left is-clearfix">
+                            <input class='input' id='id_nome' type='text' name='titulo' value="{{filter.form.titulo.value|default_if_none:''}}" placeholder="Titulo">
+                            <span class="icon is-left">
+                                <i class="mdi mdi-magnify mdi-24px"></i>
+                            </span>
+                        </div>
+                        <!---->
+                    </div>
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select name="{{ filter.form.estadoquestid.name }}"
+                                    value="{{filter.form.estadoquestid.value}}">
+                                    <option value="">Qualque estado</option>
+                                    {% for value, fac in facs %}
+                                        {% if value != "" %}
+                                        <option value="{{ value }}"
+                                            {% if value|stringformat:'s' == filter.form.estadoquestid.value %} selected
+                                            {% endif %}>
+                                            {{ fac }}
+                                        </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                                <i class="mdi mdi-magnify mdi-24px"></i>
+                            </span>
+                        </div>
+                    </div>
+                </ul>
+                <div class='field is-grouped' style='margin-top: 5px'>
+                        <p class="control is-expanded">
+                            <a class="button is-light is-fullwidth" role="button" type="button" href="{% url 'questionarios:consultar-questionarios-admin' %}">Limpar</a>
+                        </p>
+                        <p class="control is-expanded">
+                            <button class="button is-primary is-fullwidth" type="submit">
+                                <span class="icon">
+                                    <i class="mdi mdi-magnify"></i>
+                                </span>
+                                <span>Pesquisar</span>
+                            </button>
+                        </p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="column">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li><a href="{% url 'home' %}">Início</a></li>
+              <li class="is-active"><a href="#" aria-current="page">Questionários</a></li>
+            </ul>
+        </nav>
+        <a href="{% url 'questionarios:criar-questionario' %}">
+            <button type="button" class="button is-success is-outlined" style="margin-bottom: 1rem;"><span
+                    class="icon is-small"><i class="mdi mdi-plus"></i></span> <span>Novo Questionário</span>
+            </button>
+        </a>
+        {% render_table table 'questionario/consultar_questionarios_tabela.html' %}
+    </div>
+</div>
+{% endblock content %}

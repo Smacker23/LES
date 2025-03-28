@@ -1,0 +1,42 @@
+{% extends 'app.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="section">
+        <form method="post" action="{% url 'questionarios:responder-questionario' questionario_id=questionario.id %}">
+            {% csrf_token %}
+            <h2 class="title is-3">{{ questionario.titulo }}</h2> <!-- Título do questionário -->
+            {% for item in perguntas_com_tipos %}
+                <div class="box">
+                    <div class="field">
+                        <label class="label">Pergunta: {{ item.pergunta.pergunta }}</label>
+                        <div class="control">
+                            {% if item.tipo_resposta.tiporesposta == "Por extenso" or not item.opcoes %}
+                                <textarea class="textarea" name="{{ item.pergunta.id }}"></textarea>
+                            {% elif item.opcoes %}
+                                <div class="options-container">
+                                    {% for opcao in item.opcoes %}
+                                        <div class="field is-horizontal">
+                                            <div class="field-body">
+                                                <div class="field">
+                                                    <input class="is-checkradio" id="option_{{ item.pergunta.id }}_{{ forloop.counter }}" type="checkbox" name="{{ item.pergunta.id }}" value="{{ opcao }}">
+                                                    <label for="option_{{ item.pergunta.id }}_{{ forloop.counter }}">{{ opcao }}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary">Finalizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

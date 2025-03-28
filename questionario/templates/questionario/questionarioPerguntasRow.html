@@ -1,0 +1,26 @@
+<tr>
+    <input type="hidden" name="{{form_id}}" id="id_{{form_id}}">
+    <td data-label="Pergunta">
+        <input type="text" name="{{form_pergunta}}" class="input" maxlength="255" id="id_{{form_pergunta}}" required>
+    </td>
+    <td data-label="TemaID">
+        <span class="select">
+            <select name="{{ form_temaid }}" class="input" id="id_{{ form_temaid }}">
+                {% for option in options %}
+                    <option value="{{ option.id }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+
+        </span>
+    </td>
+    <td data-label="TipoRespostaID">
+        <span class="select">
+            <select name="{{ form_tiporespostaid }}" class="input" id="id_{{ form_tiporespostaid }}">
+                {% for tipo in tipos %}
+                    <option value="{{ tipo.id }}">{{ tipo }}</option>
+                {% endfor %}
+            </select>
+
+        </span>
+    </td>
+</tr>

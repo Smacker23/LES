@@ -1,0 +1,24 @@
+{% extends 'app.html' %}
+{% block content %}
+    <form method="POST" action="{% url 'roteiros:eliminar_roteiro' id=roteiro.id %}">
+        <div id="proporatividade">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'home' %}">Início</a></li>
+                    <li><a href="{% url 'roteiros:roteiroCoordenador' %}">Roteiros</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Eliminar Roteiro</a></li>
+                </ul>
+            </nav>
+            <div style="padding: 3rem 2vw 1rem">
+                <h1 class="title">Eliminar Roteiro</h1>
+                <p>Deseja eliminar o roteiro inteiro, sessões específicas ou atividades individuais?</p>
+                <div class="buttons">
+                    <button class="button is-danger" type="submit" name="choice" value="roteiro">Eliminar Roteiro Inteiro</button>
+                    <button class="button is-warning" type="submit" name="choice" value="sessoes">Eliminar Sessões</button>
+                    <button class="button is-info" type="submit" name="choice" value="atividades">Eliminar Atividades</button>
+                </div>
+            </div>
+        </div>
+        {% csrf_token %}
+    </form>
+{% endblock content %}

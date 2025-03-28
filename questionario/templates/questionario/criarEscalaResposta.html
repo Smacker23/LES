@@ -1,0 +1,48 @@
+{% extends 'app.html' %}
+{% block content %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="{% url 'home' %}">Início</a></li>
+        <li><a href="{% url 'questionarios:consultar-tipo-resposta' %}">Escala de Resposta</a></li>
+        <li class='is-active'><a href="">Criar Escala de Resposta</a></li>
+    </ul>
+</nav>
+<div style="padding: 3rem 2vw 1rem">
+    <form method="POST" action="">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="notification is-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="field">
+            <label class="label" for="id_nome">Nome da Escala:</label>
+            <div class="control">
+                <input class="input" id="id_nome" type="text" name="nome" placeholder="Nome da Escala">
+                {% if form.nome.errors %}
+                    <p class="help is-danger">{{ form.nome.errors.as_text }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="id_valores">Valores (separados por vírgula):</label>
+            <div class="control">
+                <textarea class="textarea" id="id_valores" name="valores" placeholder="1, 2, 3, 4, 5"></textarea>
+                {% if form.valores.errors %}
+                    <p class="help is-danger">{{ form.valores.errors.as_text }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <a class="button is-large is-outlined" href="{% url 'questionarios:consultar-tipo-resposta' %}">Cancelar</a>
+            </div>
+            <div class="level-right">
+                <button class="button is-large is-success is-outlined" type="submit">Confirmar</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

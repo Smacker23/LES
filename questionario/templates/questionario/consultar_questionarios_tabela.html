@@ -1,0 +1,34 @@
+{% extends 'bulma_table_details.html' %}
+{% load poll_extras %}
+{% block details_content %}
+    <table class="table is-fullwidth has-mobile-cards">
+        <tbody>
+        <tr>
+            <th style="width: 15vw"><strong>Pertence a um dia aberto:</strong></th>
+            <td style="font-weight: normal;">
+                <span>{{ row.record|get_pertence_dia_aberto }}</span>
+            </td>
+        </tr>
+
+        <tr style="border-bottom: 1px solid #ddd">
+            <th><strong>Responsável:</strong></th>
+            <td style="font-weight: normal;">
+                <span> {{ row.record|get_responsavel }} </span>
+            </td>
+        </tr>
+        <tr>
+            <th><strong>Perguntas: </strong></th>
+            <td style="font-weight: normal;">
+                <a href="{% url 'questionarios:consultarPerguntas' row.record.id %}" class="button is-primary">
+                                <span class="icon">
+                                    <i class="mdi mdi-magnify"></i>
+                                </span>
+                    <span>Consultar perguntas</span>
+                </a>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+        </tbody>
+    </table>
+{% endblock details_content %}

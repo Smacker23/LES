@@ -1,0 +1,29 @@
+{% extends 'app.html' %}
+{% block content %}
+<style>
+  /* Add some padding to table cells */
+  td {
+    padding: 8px; /* Adjust the value as needed */
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Valores</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for escala in escalas %}
+    <tr>
+      <td>{{ escala.nome }}</td>
+      <td>{{ escala.valores }}</td> <!-- Assumed 'escala.valores' for example -->
+      <td>
+        <a href="{% url 'questionarios:editar-escala-resposta' escala.id %}" class="button is-small is-primary">Editar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

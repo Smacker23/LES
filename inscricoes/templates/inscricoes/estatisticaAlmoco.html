@@ -1,0 +1,423 @@
+{% extends 'app.html' %}
+{% load inscricoes_extras %}
+{% load static %}
+
+{% block title %}- Estatísticas{% endblock title %}
+
+{% block load %}
+    <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+{% endblock load %}
+
+{% block scripts %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
+            integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script
+            src="https://rawgit.com/chartjs/chartjs.github.io/master/dist/master/Chart.min.js"
+    ></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels"
+    ></script>
+    <script>
+
+        function selectDiaAberto(selectObject) {
+            const value = selectObject.value;
+            location.href = "{% url 'inscricoes:estatisticasAlmocos' 12345 %}".replace(/12345/, value);
+        }
+
+        const resposta1GostasteDiaAberto = {{ pergunta|RespostaComValorAlmoco:diaaberto}};
+        const resposta2GostasteDiaAberto = {{ pergunta|RespostaComValorAlmoco2:diaaberto}};
+        const resposta3GostasteDiaAberto = {{ pergunta|RespostaComValorAlmoco3:diaaberto}};
+        const resposta4GostasteDiaAberto = {{ pergunta|RespostaComValorAlmoco4:diaaberto}};
+        const resposta5GostasteDiaAberto = {{ pergunta|RespostaComValorAlmoco5:diaaberto}};
+        const ctx_respostasGostasteDiaAbertoGrafico = document.getElementById('respostasGostasteDiaAbertoGrafico').getContext('2d');
+        const chart_respostasGostasteDiaAbertoGrafico = new Chart(ctx_respostasGostasteDiaAbertoGrafico, {
+            type: 'pie',
+            data: {
+                labels: ["opção 1", "opção 2", "opção 3", "opção 4", "opção 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        resposta1GostasteDiaAberto,
+                        resposta2GostasteDiaAberto,
+                        resposta3GostasteDiaAberto,
+                        resposta4GostasteDiaAberto,
+                        resposta5GostasteDiaAberto,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+        const respostaGostasteAtendimento1 = {{ pergunta2|RespostaComValorAlmoco:diaaberto}};
+        const respostaGostasteAtendimento2 = {{ pergunta2|RespostaComValorAlmoco2:diaaberto}};
+        const respostaGostasteAtendimento3 = {{ pergunta2|RespostaComValorAlmoco3:diaaberto}};
+        const respostaGostasteAtendimento4 = {{ pergunta2|RespostaComValorAlmoco4:diaaberto}};
+        const respostaGostasteAtendimento5 = {{ pergunta2|RespostaComValorAlmoco5:diaaberto}};
+        const ctx_respostaGostasteAtendimento = document.getElementById('respostaGostasteAtendimento').getContext('2d');
+        const chart_respostaGostasteAtendimento = new Chart(ctx_respostaGostasteAtendimento, {
+            type: 'pie',
+            data: {
+                labels: ["opção 1", "opção 2", "opção 3", "opção 4", "opção 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        respostaGostasteAtendimento1,
+                        respostaGostasteAtendimento2,
+                        respostaGostasteAtendimento3,
+                        respostaGostasteAtendimento4,
+                        respostaGostasteAtendimento5,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    onClick: function (e, legendItem, legend) {
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+        const respostaVariedade1 = {{ pergunta3|RespostaComValorAlmoco:diaaberto}};
+        const respostaVariedade2 = {{ pergunta3|RespostaComValorAlmoco2:diaaberto}};
+        const respostaVariedade3 = {{ pergunta3|RespostaComValorAlmoco3:diaaberto}};
+        const respostaVariedade4 = {{ pergunta3|RespostaComValorAlmoco4:diaaberto}};
+        const respostaVariedade5 = {{ pergunta3|RespostaComValorAlmoco5:diaaberto}};
+        const ctx_respostaVariedade = document.getElementById('respostaVariedade').getContext('2d');
+        const chart_respostaVariedade = new Chart(ctx_respostaVariedade, {
+            type: 'pie',
+            data: {
+                labels: ["opção 1", "opção 2", "opção 3", "opção 4", "opção 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        respostaVariedade1,
+                        respostaVariedade2,
+                        respostaVariedade3,
+                        respostaVariedade4,
+                        respostaVariedade5,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+        const respostaQuente1 = {{ pergunta4|RespostaComValorAlmoco:diaaberto}}
+        const respostaQuente2 = {{ pergunta4|RespostaComValorAlmoco2:diaaberto}};
+        const respostaQuente3 = {{ pergunta4|RespostaComValorAlmoco3:diaaberto}};
+        const respostaQuente4 = {{ pergunta4|RespostaComValorAlmoco4:diaaberto}};
+        const respostaQuente5 = {{ pergunta4|RespostaComValorAlmoco5:diaaberto}};
+        const ctx_respostaQuente = document.getElementById('respostaQuente').getContext('2d');
+        const chart_respostaQuente = new Chart(ctx_respostaQuente, {
+            type: 'pie',
+            data: {
+                labels: ["opção 1", "opção 2", "opção 3", "opção 4", "opção 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        respostaQuente1,
+                        respostaQuente2,
+                        respostaQuente3,
+                        respostaQuente4,
+                        respostaQuente5,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+        async function exportarPDF() {
+            // Criar uma instÃ¢ncia de jsPDF em orientaÃ§Ã£o retrato e tamanho A4
+            const pdf = new jspdf.jsPDF();
+
+            // Carregar uma imagem da pasta "img"
+            {#const imageElement = document.createElement("img");#}
+            const imageElement = new Image();
+            imageElement.src = "/static/img/logo-navbar.png"; // Caminho para a imagem na pasta
+
+            await new Promise((resolve) => {
+                imageElement.onload = resolve;
+            });
+
+            // Obter o Data URL da imagem carregada
+            const imageData = imageElement.src;
+
+            // Alterar fonte e cor do texto
+            pdf.setFont("Courier", "bolditalic"); // Escolher a famÃ­lia da fonte e o estilo (negrito e itÃ¡lico)
+            pdf.setFontSize(14); // Definir o tamanho da fonte
+            pdf.setTextColor(128, 128, 128); // Definir a cor do texto (RGB), neste caso vermelho
+
+            // Adicionar a imagem ao PDF
+            let posX4 = 20;
+            let posY4 = 5;
+            const larguraGrafico4 = 155; // Largura em mm
+            const alturaGrafico4 = 25; // Altura em mm
+
+            pdf.addImage(imageData, 'PNG', posX4, posY4, larguraGrafico4, alturaGrafico4);
+
+            // Adicionar texto entre a imagem e os grÃ¡ficos
+            const posXText = 55;
+            const posYText = 40; // Ajuste a posiÃ§Ã£o Y para que o texto fique entre a imagem e os grÃ¡ficos
+            pdf.text("Estatisticas sobre os almoços", posXText, posYText);
+
+            // Capturar os grÃ¡ficos como imagens
+            const grafico1 = document.getElementById('respostasGostasteDiaAbertoGrafico').toDataURL();
+            const grafico2 = document.getElementById('respostaGostasteAtendimento').toDataURL();
+            const grafico3 = document.getElementById('respostaVariedade').toDataURL();
+            const grafico4 = document.getElementById('respostaQuente').toDataURL();
+
+            // Largura e altura do documento PDF
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            {#const pdfHeight = pdf.internal.pageSize.getHeight();#}
+
+            // Calcular a largura e a altura para manter a proporÃ§Ã£o dos grÃ¡ficos
+            const larguraGrafico = 100; // Largura em mm
+            const alturaGrafico = 50; // Altura em mm
+
+            {#// Adicionar as imagens ao PDF#}
+            {#const posXGrafico1 = (pdfWidth - larguraGrafico) / 2; // PosiÃ§Ã£o X para centralizar o grÃ¡fico#}
+            let posY = 55;
+            {#let posX = (pdfWidth - larguraGrafico) / 2;#}
+            let posX = 10
+            let posX2 = larguraGrafico + 10;
+
+            pdf.setFontSize(8); // Definir o tamanho da fonte
+            pdf.text("Gostaste da comida preparada na cantina?", posX, 50);
+            pdf.addImage(grafico1, 'PNG', posX, posY, larguraGrafico, alturaGrafico);
+
+            pdf.text("Gostaste do atendimento?", posX2, 50);
+            pdf.addImage(grafico2, 'PNG', posX2, posY, larguraGrafico, alturaGrafico);
+            posY += alturaGrafico + 30; // Atualizar a posiÃ§Ã£o y para o prÃ³ximo grÃ¡fico, com espaÃ§amento de 10 mm
+
+            pdf.text("Existe variedade suficiente de refeições para escolher?", posX, posY - 5);
+            pdf.addImage(grafico3, 'PNG', posX, posY, larguraGrafico, alturaGrafico);
+            {#posY += alturaGrafico + 30; // Atualizar a posiÃ§Ã£o y para o prÃ³ximo grÃ¡fico, com espaÃ§amento de 10 mm#}
+
+            pdf.text("A comida está quente o suficiente?", posX2, posY - 5);
+            pdf.addImage(grafico4, 'PNG', posX2, posY, larguraGrafico, alturaGrafico);
+
+
+            // Salvar o PDF
+            pdf.save('pdfAlmoco{{ diaaberto }}.pdf');
+        }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+{% endblock scripts %}
+
+{% block content %}
+    <nav aria-label="breadcrumbs" class="breadcrumb">
+        <ul>
+            <li><a href="{% url 'home' %}">Início</a></li>
+            <li class="is-active"><a href="">Dados e Estatísticas</a></li>
+        </ul>
+    </nav>
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Dia Aberto</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <p class="control">
+                <div class="select">
+                    <select value="{{ diaaberto.id }}" onchange="selectDiaAberto(this)">
+                        {% for dia_aberto in diasabertos %}
+                            <option value="{{ dia_aberto.id }}"
+                                    {% if diaaberto.id == dia_aberto.id %}selected{% endif %}>{{ dia_aberto }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                </p>
+            </div>
+
+            <!--<div class="field is-grouped">
+                <p class="control">
+                    <a class="button is-primary is-outlined"
+                       href="{% url 'inscricoes:exportarcsvAlmoco' diaaberto.id %}">Exportar para CSV</a>
+                </p>
+                <p class="control">
+                    <button class="button is-primary is-outlined" onclick="exportarPDF()">Exportar Gráficos para PDF
+                    </button>
+                </p>
+                -->
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h2 class="title has-text-grey is-uppercase has-text-centered" style="font-size: 0.9rem">
+        Estatistica almoços {{ diaaberto.ano }}
+    </h2>
+    <div class="columns" style="margin-top: 50px">
+
+        <div class="column">
+            <div style="margin-left: 35%"> {{ pergunta }}</div>
+            <canvas id="respostasGostasteDiaAbertoGrafico"></canvas>
+        </div>
+        <div class="column">
+            <div style="margin-left: 35%"> {{ pergunta2 }}</div>
+            <canvas id="respostaGostasteAtendimento"></canvas>
+        </div>
+    </div>
+    <div class="columns" style="margin-top: 50px">
+        <div class="column">
+            <div style="margin-left: 35%"> {{ pergunta3 }}</div>
+            <canvas id="respostaVariedade"></canvas>
+        </div>
+        <div class="column">
+            <div style="margin-left: 35%"> {{ pergunta4 }}</div>
+            <canvas id="respostaQuente"></canvas>
+        </div>
+    </div>
+    <button style="margin-left:4.5%" type="button" id="obterPdfButton" class="button is-danger" onclick="exportarPDF()">
+        <span class="icon is-small"><i class="mdi mdi-download"></i></span>
+        <span> Exportar Gráficos para PDF </span>
+    </button>
+    <a  href="{% url 'inscricoes:exportarcsvAlmoco' diaaberto.id %}" class="button is-primary"
+       style="background-color: #22911A;" id="obterPdfButton">
+                <span class="icon">
+                    <i class="fas fa-file-excel"></i>
+                </span>
+        <span>Exportar Gráficos para CSV</span>
+    </a>
+    <hr>
+
+    </div>
+{% endblock content %}

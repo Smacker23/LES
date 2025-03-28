@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição no Dia Aberto {{ano}} - Universidade do Algarve</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+
+            @frame footer_frame {
+                /* Static frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt;
+                width: 512pt;
+                top: 772pt;
+                height: 20pt;
+            }
+        }
+
+        .has-text-centered {
+            text-align: center;
+        }
+        .responsaveis-table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .responsaveis-table td, .responsaveis-table th {
+            padding: 3px;
+            padding-top: 2px;
+            border: 1px solid #000;
+            text-align: center;
+            font-size: 9px;
+        }
+
+        .section-header {
+            text-align: center;
+            padding: 3px;
+            padding-top: 10px;
+            background-color: #eee;
+            border: 1px solid #000;
+            font-weight: bold;
+        }
+
+        .descricao {
+            margin-top: 15px;
+            font-size: 9px;
+            text-align: justify;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+
+</head>
+
+<body>
+    <img src="{{ 'img/ualg-logo.png' }}" alt="Ualg Logo" height="100">
+    <img class="has-text-centered" src="{{ 'img/logo-large.png' }}" alt="Dia Aberto Logo" height="100">
+    <pdf:spacer height="20px" />
+    <h1 class="has-text-centered">Relatório sobre atividades - Universidade do Algarve</h1>
+    {% if checkRespostasAmmount == 0 %}
+        <h2 class="title has-text-grey is-uppercase has-text-centered" style="font-size: 1.5rem">
+                O dia aberto {{ ano }} não contêm dados
+            </h2>
+    {% endif %}
+    {% for current in info %}
+       <div class="section-header">{{ current.atividade.nome }} - {{ current.sessao.dia }}</div>
+            <table class="responsaveis-table">
+                <thead>
+                    <tr>
+                        <th>Tipo:</th>
+                        <th>Publico Alvo:</th>
+                        <th>Colaboradores Necessários:</th>
+                        <th>Participantes Máximos:</th>
+                        <th>Participantes Atuais:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{current.atividade.tipo}}</td>
+                        <td>{{current.atividade.publicoalvo}}</td>
+                        <td>{{current.atividade.nrcolaboradoresnecessario}}</td>
+                        <td>{{current.atividade.participantesmaximo}}</td>
+                        <td>{{current.sessao.ninscritos}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="descricao">
+                <strong>Descrição:</strong>
+                <p>{{current.atividade.descricao}}</p>
+            </div>
+            {% if not forloop.last %}
+                <div class="page-break"></div>
+            {% endif %}
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends 'app2.html' %}
+{% block content %}
+    {% load l10n %}
+    {% load configuracao_tags %}
+    {% load django_tables2 %}
+    <div class="columns">
+        <div class="column is-1"></div>
+        <div class="column">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'home' %}">Início</a></li>
+                    <li><a href="{% url 'inscricoes:consultar-inscricoes-admin' %}">Incrições</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Cancelar Sessões</a></li>
+                </ul>
+            </nav>
+            <h2 class="title is-4">Consulta de presença do grupo {{ inscricao2.id }}</h2>
+            <h3 class="title is-5">Sessões</h3>
+            {% for sessao in inscricaosessoes %}
+                <div class="box">
+                    <div class="columns">
+                        <div class="column is-6">
+                            {% if sessao.sessao.atividadeid.nome %}
+                                <p><strong>Nome atividade:</strong> {{ sessao.sessao.atividadeid.nome }}</p>
+                            {% else %}
+                                <p><strong>Nome roteiro:</strong> {{ sessao.sessao.roteiro.nome }}</p>
+                            {% endif %}
+                            <p><strong>Horário:</strong> {{ sessao.sessao.horarioid.inicio }}
+                                / {{ sessao.sessao.horarioid.fim }}h</p>
+                        </div>
+                        <div class="column is-6">
+                            <a href="{% url 'inscricoes:cancelar-sessao-eliminar' sessao.id pk%}">
+                            <button class="button is-primary select-button" data-sessao-id="{{ sessao.sessao.id }}">
+                                Cancelar inscrinção
+                            </button>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %}
+{% endblock scripts %}

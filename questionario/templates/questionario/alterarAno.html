@@ -1,0 +1,90 @@
+{% extends 'app.html' %}
+{% load django_tables2 %}
+{% load static %}
+{% block content %}
+{% load configuracao_tags %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+	<li><a href="{% url 'home' %}">Início</a></li>
+	<li >Questionário</li>
+	</ul>
+</nav>
+<div style="padding: 3rem 2vw 1rem">
+	<form method="post" enctype="multipart/form-data">
+		<div id="id_removed_rows" style="display:none;"></div>
+		{% csrf_token %}
+    {% if form.non_field_errors %}
+      <article class="message is-danger">
+        <div class="message-body">
+          <p style="text-align: center;">
+          {% for error in form.non_field_errors %}
+            <strong>{{ error|escape }}</strong>
+          {% endfor %}
+          </p>
+        </div>
+      </article>
+    {% endif %}
+		<div class="b-steps">
+			<section class="step-content">
+				<div class="step-item">
+					<div style="padding: 1rem 2vw 0px">
+                    <hr>
+						<h2 class="title has-text-grey is-uppercase" style="font-size: 0.9rem;">Selecione o ano pretendido</h2>
+
+						<div class="columns">
+{#							<div class="column is-one-quarter">#}
+{#								<strong>{{form.nome.errors}}</strong>#}
+{#								<div class="field">#}
+{#									<label class="label">Titulo</label>#}
+{#									<div class="control">#}
+{#										{{questionario.titulo}}#}
+{#									</div>#}
+{#								</div>#}
+{#							</div>#}
+{#                            <div class="column is-one-quarter"></div>#}
+							<div class="column is-one-quarter">
+								<strong>{{form.campus.errors}}</strong>
+								<div class="field">
+								<label class="label">Titulo</label>
+								<div class="control">
+									<span class="select is-fullwidth is-empty">
+										{{quest.as_p}}
+									</span>
+								</div>
+								</div>
+							</div>
+						</div>
+                        {% if flagError %}
+                            <div class="has-text-danger">O dia aberto com este ano já tem um questionário associado.</div>
+                        {% endif %}
+					</div>
+					<hr>
+                {% render_table diaabertotable %}
+					<div class="column is-8 is-offset-2">
+						<div class="level">
+							<div class="level-left">
+								<a class="button is-medium is-outlined" type="button" href="{% url 'configuracao:diasAbertos' %}">
+								<span>Cancelar</span>
+								</a>
+							</div>
+							<div class="level-right">
+								<button class="button is-medium is-success is-outlined is-link" type="submit">
+								<span>Confirmar</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</form>
+</div>
+<style>
+	.label {
+	font-weight: normal;
+}
+.b-steps .steps .step-items .step-item .step-details .step-title {
+	font-size: 1rem;
+}
+</style>
+{% endblock content %}

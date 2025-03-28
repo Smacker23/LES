@@ -1,0 +1,54 @@
+{% extends 'app.html' %}
+{% load inscricoes_extras %}
+{% load static %}
+
+{% block title %}- Estatísticas{% endblock title %}
+
+{% block load %}
+    <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+{% endblock load %}
+
+{% block scripts %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script>
+
+        function selectDiaAberto(selectObject) {
+            const value = selectObject.value;
+            location.href = "{% url 'questionarios:estatisticasTransport' 12345 %}".replace(/12345/, value);
+        }
+
+    </script>
+{% endblock scripts %}
+
+{% block content %}
+<div>
+    <nav aria-label="breadcrumbs" class="breadcrumb">
+        <ul>
+            <li><a href="{% url 'home' %}">Início</a></li>
+            <li class="is-active"><a href="">Dados e Estatísticas</a></li>
+        </ul>
+    </nav>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Dia Aberto</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control">
+                        <div class="select">
+                            <select value="{{diaaberto.id}}" onchange="selectDiaAberto(this)">
+                            <option value="" style="display: none;" value="" disabled selected>------</option>
+                                {% for dia_aberto in diasabertos %}
+                                <option value="{{dia_aberto.id}}">{{dia_aberto}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

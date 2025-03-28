@@ -1,0 +1,53 @@
+{% extends 'app2.html' %}
+{% block content %}
+    {% load l10n %}
+    {% load configuracao_tags %}
+    {% load django_tables2 %}
+
+    <div class="columns">
+        <div class="column is-1"></div>
+        <div class="column">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'home' %}">Início</a></li>
+                    <li><a href="{% url 'questionarios:consultar-questionarios-admin' %}">Questionários</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Consultar Perguntas</a></li>
+                </ul>
+            </nav>
+
+            <div class="box">
+                <h2 class="title is-4">Informação do questionário: {{ questionario.titulo }}</h2>
+                <ul class="content">
+                    <li><strong>Pertence a um dia aberto: </strong>
+                        <span>{{ questionario.get_pertence_dia_aberto }}</span></li>
+                    <li><strong>Responsável: </strong> <span>{{ questionario.get_responsavel }}</span></li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h2 class="title is-4">Perguntas</h2>
+                <ul class="content">
+                    {% for perg in perguntas %}
+                        <li>
+                            <div class="columns">
+                                <div class="column">
+                                    <strong>Pergunta:</strong> <span>{{ perg.perguntaid.pergunta }}</span>
+                                </div>
+                                <div class="column">
+                                    <strong>Tipo resposta:</strong> <span>{{ perg.perguntaid.tiporespostaid.tiporesposta }}</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    {% if perguntasSize == 0 %}
+                        <strong>O questionário não tem perguntas</strong></span>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}

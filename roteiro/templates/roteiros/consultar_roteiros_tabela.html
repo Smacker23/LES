@@ -1,0 +1,70 @@
+{% extends 'app2.html' %}
+{% block content %}
+    {% load l10n %}
+    {% load configuracao_tags %}
+    {% load django_tables2 %}
+
+    <div class="columns">
+        <div class="column is-1"></div>
+        <div class="column">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'home' %}">Início</a></li>
+                    <li><a href="{% url 'roteiros:roteiroCoordenador' %}">Roteiros</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Consultar Roteiro</a></li>
+                </ul>
+            </nav>
+
+            <div class="box">
+                <h2 class="title is-4 has-text-centered">Informação Geral do Roteiro</h2>
+                <ul class="content">
+                    <li><strong>Tema:</strong> <span>{{ roteiros.tema }}</span></li>
+                    <li><strong>Público Alvo:</strong> <span>{{ roteiros.publicoalvo }}</span></li>
+                    <li><strong>Descrição:</strong> <span>{{ roteiros.descricao }}</span></li>
+                    <li><strong>Duração:</strong> <span>{{ roteiros.duracaoesperada }} minutos</span></li>
+                    <li><strong>Número Máximo de Vagas:</strong> <span>{{ roteiros.participantesmaximo }}</span></li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h2 class="title is-4 has-text-centered">Atividades</h2>
+                <ul class="content">
+                    {% for atividade in atividades %}
+                        <li>
+                            <strong>Atividade:</strong> <span>{{ atividade.nome }}</span><br>
+                            <strong>Edifício:</strong> <span>{{ atividade.espacoid.edificio }}</span>,
+                            <strong>Andar:</strong> <span>{{ atividade.espacoid.andar }}</span>,
+                            <strong>Sala:</strong> <span>{{ atividade.espacoid.nome }}</span>
+                        </li>
+                        {% if not forloop.last %}<hr>{% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="box">
+                <h2 class="title is-4 has-text-centered">Sessões</h2>
+                <ul class="content">
+                    {% for sessao in sessoes %}
+                        <li>
+                            <div class="columns is-mobile is-multiline">
+                                <div class="column is-one-third">
+                                    <strong>Dia:</strong> <span>{{ sessao.dia }}</span>
+                                </div>
+                                <div class="column is-one-third">
+                                    <strong>Horário:</strong> <span>{{ sessao.horarioid.inicio }}/{{ sessao.horarioid.fim }}h</span>
+                                </div>
+                                <div class="column is-one-third">
+                                    <strong>Inscrições:</strong> <span>{{ sessao.ninscritos }}</span>
+                                </div>
+                            </div>
+                        </li>
+                        {% if not forloop.last %}<hr>{% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}

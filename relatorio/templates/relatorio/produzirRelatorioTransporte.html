@@ -1,0 +1,119 @@
+{% extends 'app.html' %}
+{% load static %}
+{% block content %}
+{% load configuracao_tags %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="{% url 'home' %}">Início</a></li>
+        <li><a href="{% url 'configuracao:produzirRelatorio' %}">Produzir Relatório</a></li>
+        <li class='is-active'><a href="">Transportes</a></li>
+    </ul>
+</nav>
+   <div class="columns">
+    <div class="column">
+        <div class="field" >
+            <label class="label">Dia aberto</label>
+            <div class="control">
+                <div class="select is-empty">
+                    <select name="diaAberto" id="diaAberto"  style="min-width: 300px;">
+                        <option value="">Geral</option>
+                        {% for dia in diaAberto %}
+                        <option value="{{ dia.0 }}">{{ dia.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="field">
+            <label class="label">Campus</label>
+            <div class="control">
+                <div class="select is-empty">
+                    <select name="campus" id="campus" style="min-width: 300px;">
+                        <option value="">Geral</option>
+                        {% for camp in campus %}
+                        <option value="{{ camp.0 }}">{{ camp.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="field">
+            <label class="label">Identificador</label>
+            <div class="control">
+                <div class="select is-empty">
+                    <select name="identificador" id="identificador" style="min-width: 300px;">
+                        <option value="">Geral</option>
+                        {% for ident in identificador %}
+                        <option value="{{ ident.0 }}">{{ ident.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div style="padding: 3rem 2vw 1rem">
+    <button type="button" id="obterPdfButton" class="button is-danger">
+        <span class="icon is-small"><i class="mdi mdi-download"></i></span>
+        <span> Obter PDF </span>
+    </button>
+</div>
+
+<style>
+    .label {
+        font-weight: normal;
+    }
+    .b-steps .steps .step-items .step-item .step-details .step-title {
+        font-size: 1rem;
+    }
+</style>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.getElementById('obterPdfButton').addEventListener('click', function() {
+        // Get the selected values from the dropdowns
+        var diaAbertoSelect = document.getElementById('diaAberto');
+        var selectedDiaAberto = diaAbertoSelect.value;
+
+        var campusSelect = document.getElementById('campus');
+        var selectedCampus = campusSelect.value;
+
+        var identificadorSelect = document.getElementById('identificador');
+        var selectedIdentificador = identificadorSelect.value;
+
+        // Construct the URL with selected values
+        var url = "{% url 'configuracao:inscricao-pdf' %}";
+
+        // Add query parameters if their values are not empty
+        if (selectedDiaAberto != "") {
+            url += "?dia_aberto=" + selectedDiaAberto;
+        }
+        if (selectedCampus != "") {
+            url += "&campus=" + selectedCampus;
+        }
+        if (selectedIdentificador != "") {
+            url += "&identificador=" + selectedIdentificador;
+        }
+         console.log(url);
+        console.log(selectedDiaAberto, selectedCampus, selectedIdentificador);
+        // Redirect to the URL
+        window.location.href = "{% url 'configuracao:inscricao-pdf' %}";
+    });
+</script>
+
+{% endblock scripts %}

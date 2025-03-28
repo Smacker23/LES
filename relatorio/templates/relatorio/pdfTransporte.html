@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição no Dia Aberto {{ano}} - Universidade do Algarve</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+
+            @frame footer_frame {
+                /* Static frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt;
+                width: 512pt;
+                top: 772pt;
+                height: 20pt;
+            }
+        }
+
+        .has-text-centered {
+            text-align: center;
+        }
+        .responsaveis-table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .responsaveis-table td {
+            padding: 3px;
+            padding-top: 2px;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            text-align: center;
+        }
+
+        .responsaveis-table thead th {
+            padding-left: 6px;
+            padding-top: 4px;
+            vertical-align: bottom;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            border-top: 1px solid #000;
+            text-align: left;
+            font-size: 9px;
+        }
+        .section-header {
+            text-align: center;
+            padding: 3px;
+            padding-top: 10px;
+            background-color: #eee;
+            border: 1px solid #000;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+    <img src="{{ 'img/ualg-logo.png' }}" alt="Ualg Logo" height="100">
+    <img class="has-text-centered" src="{{ 'img/logo-large.png' }}" alt="Dia Aberto Logo" height="100">
+    <pdf:spacer height="20px" />
+    <h1 class="has-text-centered">Relatório sobre transportes - Universidade do Algarve</h1>
+    {% if checkRespostasAmmount == 0 %}
+        <h2 class="title has-text-grey is-uppercase has-text-centered" style="font-size: 1.5rem">
+                O dia aberto {{ ano }} não contêm dados
+            </h2>
+    {% endif %}
+    {% for current in info %}
+       <div class="section-header">{{ current.obj.get_identifier }} - {{ current.obj.get_dia }}</div>
+            <table class="responsaveis-table">
+                <thead>
+                    <tr>
+                        <th>Origem:</th>
+                        <th>Destino:</th>
+                        <th>Hora partida:</th>
+                        <th>Hora chegada:</th>
+                        <th>Lugares livre:</th>
+                        <th>Lotação atual:</th>
+                        <th>Lotação máxima:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{current.obj.origem}}</td>
+                        <td>{{current.obj.chegada}}</td>
+                        <td>{{current.obj.horaPartida}}</td>
+                        <td>{{current.obj.horaChegada}}</td>
+                        <td>{{current.disponivel}}</td>
+                        <td>{{current.ocupado}}</td>
+                        <td>{{current.obj.get_capacidade}}</td>
+                    </tr>
+                </tbody>
+            </table>
+    {% endfor %}
+</body>
+</html>

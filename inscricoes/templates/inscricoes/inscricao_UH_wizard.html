@@ -1,0 +1,80 @@
+{% extends 'app.html' %}
+{% load django_tables2 %}
+{% load inscricoes_extras %}
+{% load static %}
+
+{% block title %}- editar inscrição ultima da hora{% endblock title %}
+
+{% block load %}
+<link rel="stylesheet" href="{% static 'css/buefy.css' %}">
+<link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+{% endblock load %}
+
+{% block scripts %}
+<script src="{% static 'js/vue.js' %}"></script>
+<script src="{% static 'js/moment.js' %}"></script>
+<script src="{% static 'js/buefy/components/field/index.min.js' %}"></script>
+<script src="{% static 'js/buefy/components/datepicker/index.min.js' %}"></script>
+<script src="{% static 'js/buefy/components/timepicker/index.min.js' %}"></script>
+<script src="{% static 'js/buefy/components/numberinput/index.min.js' %}"></script>
+
+<script>
+    new Vue({
+        el: '#vue-app',
+        delimiters: ['[[', ']]'],
+        data: {
+            min_alunos: "{{ filter.form.min_alunos.value|default_if_none:'' }}" == "" ? null : parseInt(
+                "{{ filter.form.min_alunos.value|default_if_none:'null' }}"),
+            max_alunos: "{{ filter.form.max_alunos.value|default_if_none:'' }}" == "" ? null : parseInt(
+                "{{ filter.form.max_alunos.value|default_if_none:'null' }}"),
+            moment: moment,
+        },
+        computed: {
+            dia: () => {
+                let result = moment("{{ filter.form.dia.value|default_if_none:'null' }}", "DD/MM/YYYY")
+                    .toDate()
+                if (isNaN(result)) return null;
+                return result;
+            },
+        },
+        methods: {
+            reset(event) {
+                event.preventDefault();
+                this.dia = null;
+                this.min_alunos = null;
+                this.max_alunos = null;
+                const btn = $("input[type=reset]");
+                btn.closest('form').find("option[selected]").removeAttr("selected");
+                btn.closest('form').find("input[type=text], input[type=number], textarea, select").val("");
+            },
+        },
+    });
+</script>
+
+{% endblock scripts %}
+
+{% block content %}
+<div class="columns">
+    <div id="vue-app" class="column is-3">
+        <div class="menu">
+            <div class="menu-label">
+                Filtros Inscrições
+            </div>
+            <div class="menu-list content">
+                <form method="get">
+                    <!-- Filter form fields as necessary -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <nav aria-label="breadcrumbs" class="breadcrumb">
+            <ul>
+                <li><a href="{% url 'home' %}">Início</a></li>
+                <li class="is-active"><a href="{% url 'inscricoes:consultar-inscricoes-participante' %}">Inscrições</a></li>
+            </ul>
+        </nav>
+        {% render_table table %}
+    </div>
+</div>
+{% endblock content %}

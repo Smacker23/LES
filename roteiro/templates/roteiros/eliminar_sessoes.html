@@ -1,0 +1,45 @@
+{% extends 'app.html' %}
+{% block content %}
+    <form method="POST" action="{% url 'roteiros:eliminar_sessoes' id=roteiro.id %}">
+        <div id="proporatividade">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'home' %}">Início</a></li>
+                    <li><a href="{% url 'roteiros:roteiroCoordenador' %}">Roteiros</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Eliminar Sessões</a></li>
+                </ul>
+            </nav>
+            <div style="padding: 3rem 2vw 1rem">
+                <h1 class="title">Eliminar Sessões</h1>
+                <div class="table">
+                    <div class="table-wrapper">
+                        <table class="table is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th>Selecionar</th>
+                                    <th>Dia</th>
+                                    <th>Horário</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sessao in sessoes %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="sessoes" value="{{ sessao.id }}">
+                                        </td>
+                                        <td>{{ sessao.dia }}</td>
+                                        <td>{{ sessao.horarioid.inicio }} - {{ sessao.horarioid.fim }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="button is-danger" type="submit">Eliminar Sessões Selecionadas</button>
+                </div>
+            </div>
+        </div>
+        {% csrf_token %}
+    </form>
+{% endblock content %}

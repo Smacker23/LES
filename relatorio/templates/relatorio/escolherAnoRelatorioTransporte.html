@@ -1,0 +1,81 @@
+{% extends 'app2.html' %}
+{% load inscricoes_extras %}
+{% load static %}
+
+{% block title %}- Estatísticas{% endblock title %}
+
+{% block load %}
+<link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+{% endblock load %}
+
+{% block scripts %}
+<script src="{% static 'js/Chart.min.js' %}"></script>
+    <script>
+    var anoSelecionado = "{{ ultimo_dia_aberto.id }}";
+
+     function selectDiaAbertoPdf(value) {
+        location.href = "{% url 'relatorios:inscricao-pdf' 12345 %}".replace(/12345/, value);
+    }
+
+    function selectDiaAbertoExcel(value) {
+        location.href = "{% url 'relatorios:inscricao-csv' 12345 %}".replace(/12345/, value);
+    }
+
+    function selectDiaAberto(selectObject){
+        if (selectObject.value)
+            anoSelecionado = selectObject.value;
+        return anoSelecionado;
+    }
+
+
+    </script>
+
+{% endblock scripts %}
+{% block content %}
+
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li><a href="{% url 'home' %}">Início</a></li>
+            </ul>
+        </nav>
+
+    <h2 class="title has-text-grey is-uppercase" style="font-size: 0.9rem">Relatório Transporte</h2>
+
+    <hr>
+<div class="field" style="margin-left: 35%">
+    <div style="display: flex; align-items: center;">
+        <p style="margin-right: 1em;">Escolhe o ano</p>
+        <p class="control">
+            <div class="select">
+                <select value="{{diaaberto.id}}" onchange="anoSelecionado = selectDiaAberto(this)">
+                    {% for dia_aberto in diasabertos %}
+                    <option value="{{dia_aberto.id}}" {% if diaaberto.id == dia_aberto.id %}selected{% endif %}>{{dia_aberto}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </p>
+    </div>
+</div>
+
+    <hr>
+    <div class="field is-grouped" style="margin-top: 7%;margin-left: 30%">
+    <div class="field is-grouped">
+        <p class="control is-expanded">
+            <button class="button is-primary is-fullwidth" type="submit" style="margin-left: 5%; background-color: #DE3E3E;" onclick="selectDiaAbertoPdf(anoSelecionado)">
+                <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                </span>
+                <span>Obter pdf</span>
+            </button>
+        </p>
+        <p class="control is-expanded">
+            <button class="button is-primary is-fullwidth" type="submit" style=" margin-left: 5%; background-color: #22911A;" onclick="selectDiaAbertoExcel(anoSelecionado)">
+                <span class="icon">
+                    <i class="fas fa-file-excel"></i>
+                </span>
+                <span>Obter excel</span>
+            </button>
+        </p>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "inscricoes/editar_inscricao_ultima_hora.html" %}
+
+{% block step_content %}
+<div class="step-content {% if wizard.steps.current != 'submissao' %}is-hidden{% endif %}">
+    <h2 class="subtitle">Submissão da Inscrição</h2>
+    <div class="notification is-success">
+        <p>Sua inscrição foi submetida com sucesso!</p>
+        <p>Resumo da Inscrição:</p>
+        <ul>
+            <li><strong>Responsável:</strong> {{ form.data.responsavel }}</li>
+            <li><strong>Almoço:</strong> {{ form.data.almoco }}</li>
+            <li><strong>Sessões:</strong> {{ form.data.sessoes }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

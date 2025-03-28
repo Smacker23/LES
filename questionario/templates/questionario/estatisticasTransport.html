@@ -1,0 +1,852 @@
+{% extends 'app.html' %}
+{% load inscricoes_extras %}
+{% load static %}
+
+{% block title %}- Estatísticas{% endblock title %}
+
+{% block load %}
+    <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+{% endblock load %}
+
+{% block scripts %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
+            integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://rawgit.com/chartjs/chartjs.github.io/master/dist/master/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels"></script>
+    <script>
+
+        function selectDiaAberto(selectObject) {
+            const value = selectObject.value;
+            location.href = "{% url 'questionarios:estatisticasTransport' 12345 %}".replace(/12345/, value);
+        }
+
+        const resposta1GostasteAtividade = {{ respostas|respostaGostasteComValor1:"1" }};
+        const resposta2GostasteAtividade = {{ respostas|respostaGostasteComValor1:"2" }};
+        const resposta3GostasteAtividade = {{ respostas|respostaGostasteComValor1:"3" }};
+        const resposta4GostasteAtividade = {{ respostas|respostaGostasteComValor1:"4" }};
+        const resposta5GostasteAtividade = {{ respostas|respostaGostasteComValor1:"5" }};
+        const ctx_respostasGostasteAtividadeGrafico = document.getElementById('respostasGostasteTransporteGrafico').getContext('2d');
+        const chart_respostasGostasteAtividadeGrafico = new Chart(ctx_respostasGostasteAtividadeGrafico, {
+            type: 'pie',
+            data: {
+                labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        resposta1GostasteAtividade,
+                        resposta2GostasteAtividade,
+                        resposta3GostasteAtividade,
+                        resposta4GostasteAtividade,
+                        resposta5GostasteAtividade,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        fontSize: 16,
+                    },
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+
+        const resposta1Conhecimento = {{ respostas|respostaSegurancaComValor:"1" }};
+        const resposta2Conhecimento = {{ respostas|respostaSegurancaComValor:"2" }};
+        const resposta3Conhecimento = {{ respostas|respostaSegurancaComValor:"3" }};
+        const resposta4Conhecimento = {{ respostas|respostaSegurancaComValor:"4" }};
+        const resposta5Conhecimento = {{ respostas|respostaSegurancaComValor:"5" }};
+        const ctx_respostasConhecimentoAtividadeGrafico = document.getElementById('respostasSegurancaTransporteGrafico').getContext('2d');
+        const chart_respostasConhecimentoAtividadeGrafico = new Chart(ctx_respostasConhecimentoAtividadeGrafico, {
+            type: 'pie',
+            data: {
+                labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        resposta1Conhecimento,
+                        resposta2Conhecimento,
+                        resposta3Conhecimento,
+                        resposta4Conhecimento,
+                        resposta5Conhecimento,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        fontSize: 16,
+                    },
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+
+        const resposta1Responsavel = {{ respostas|respostaRConfortoComValor:"1" }};
+        const resposta2Responsavel = {{ respostas|respostaRConfortoComValor:"2" }};
+        const resposta3Responsavel = {{ respostas|respostaRConfortoComValor:"3" }};
+        const resposta4Responsavel = {{ respostas|respostaRConfortoComValor:"4" }};
+        const resposta5Responsavel = {{ respostas|respostaRConfortoComValor:"5" }};
+        const ctx_respostasResponsavelAtividadeGrafico = document.getElementById('respostasConformeTransporteGrafico').getContext('2d');
+        const chart_respostasResponsavelAtividadeGrafico = new Chart(ctx_respostasResponsavelAtividadeGrafico, {
+            type: 'pie',
+            data: {
+                labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        resposta1Responsavel,
+                        resposta2Responsavel,
+                        resposta3Responsavel,
+                        resposta4Responsavel,
+                        resposta5Responsavel,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        fontSize: 16,
+                    },
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+
+        const resposta1Recomendacao = {{ respostas|respostaRapidezComValor:"1" }};
+        const resposta2Recomendacao = {{ respostas|respostaRapidezComValor:"2" }};
+        const resposta3Recomendacao = {{ respostas|respostaRapidezComValor:"3" }};
+        const resposta4Recomendacao = {{ respostas|respostaRapidezComValor:"4" }};
+        const resposta5Recomendacao = {{ respostas|respostaRapidezComValor:"5" }};
+        const ctx_respostasRecomendacaoAtividadeGrafico = document.getElementById('respostasRapidezTransporteGrafico').getContext('2d');
+        const chart_respostasRecomendacaoAtividadeGrafico = new Chart(ctx_respostasRecomendacaoAtividadeGrafico, {
+            type: 'pie',
+            data: {
+                labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                datasets: [{
+                    backgroundColor: [
+                        "rgb(196,1,1)",
+                        "rgb(197,81,0)",
+                        "rgb(206,169,2)",
+                        "rgb(126,169,0)",
+                        "rgba(9,134,0,0.6)",
+                    ],
+                    data: [
+                        resposta1Recomendacao,
+                        resposta2Recomendacao,
+                        resposta3Recomendacao,
+                        resposta4Recomendacao,
+                        resposta5Recomendacao,
+                    ],
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        fontSize: 16,
+                    },
+                    onClick: function (e, legendItem, legend) {
+
+                    }
+                },
+                plugins: {
+                    outlabels: {
+                        text: '%p',
+                        color: 'white',
+                        stretch: 20,
+                        font: {
+                            resizable: false,
+                            minSize: 90,
+                            maxSize: 90,
+                        },
+                    },
+                },
+                tooltips: {enabled: false},
+                hover: {mode: null},
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
+            },
+        });
+
+
+        {#const resposta1Expectativa = {{ respostas|respostaExpectativaComValor:"1" }};#}
+        {#const resposta2Expectativa = {{ respostas|respostaExpectativaComValor:"2" }};#}
+        {#const resposta3Expectativa = {{ respostas|respostaExpectativaComValor:"3" }};#}
+        {#const resposta4Expectativa = {{ respostas|respostaExpectativaComValor:"4" }};#}
+        {#const resposta5Expectativa = {{ respostas|respostaExpectativaComValor:"5" }};#}
+        {#const ctx_respostasExpectativaAtividadeGrafico = document.getElementById('respostasExpectativaAtividadeGrafico').getContext('2d');#}
+        {#const chart_respostasExpectativaAtividadeGrafico = new Chart(ctx_respostasExpectativaAtividadeGrafico, {#}
+        {#    type: 'pie',#}
+        {#    data: {#}
+        {#        labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],#}
+        {#        datasets: [{#}
+        {#            backgroundColor: [#}
+        {#                "rgb(196,1,1)",#}
+        {#                "rgb(197,81,0)",#}
+        {#                "rgb(206,169,2)",#}
+        {#                "rgb(126,169,0)",#}
+        {#                "rgba(9,134,0,0.6)",#}
+        {#            ],#}
+        {#            data: [#}
+        {#                resposta1Expectativa,#}
+        {#                resposta2Expectativa,#}
+        {#                resposta3Expectativa,#}
+        {#                resposta4Expectativa,#}
+        {#                resposta5Expectativa,#}
+        {#            ],#}
+        {#        }]#}
+        {#    },#}
+        {#    options: {#}
+        {#        responsive: true,#}
+        {#        legend: {#}
+        {#            position: 'left',#}
+        {#            onClick: function (e, legendItem, legend) {#}
+        {##}
+        {#            }#}
+        {#        },#}
+        {#    },#}
+        {# });#}
+
+
+        const selectedValue = 0
+        document.getElementById('atividade-select').addEventListener('change', function () {
+            const currentCounter = this.value;
+            console.log("---" + currentCounter)
+            // Redirect to the final URL
+            console.log("func");
+
+
+            // AJAX call
+            $.ajax({
+                url: "{% url 'questionarios:getRespostas' %}",
+                type: "POST",
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: {
+                    'subtema': currentCounter,
+                    'diaaberto': '{{ diaaberto.id }}'
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                    {#console.log(data.respostas)#}
+                    //console.log("respostas", data.respostas);
+                    //console.log("respostas", data.respostas);
+                    $('#counter-value').text(data.subtema);
+
+                    function countResponsesWithValue(respostas, value, pergunta) {
+                        // Filter the responses array based on the value and pergunta
+                        const respostasWithValue = respostas.filter(function (resposta) {
+                            return resposta.resposta === value.toString() && resposta.perguntaID_id === pergunta;
+                        });
+                        // Return the length of the filtered array
+                        return respostasWithValue.length;
+                    }
+
+
+                    const resposta1GostasteAtividade = countResponsesWithValue(data.respostas, 1, 100);
+                    const resposta2GostasteAtividade = countResponsesWithValue(data.respostas, 2, 100);
+                    const resposta3GostasteAtividade = countResponsesWithValue(data.respostas, 3, 100);
+                    const resposta4GostasteAtividade = countResponsesWithValue(data.respostas, 4, 100);
+                    const resposta5GostasteAtividade = countResponsesWithValue(data.respostas, 5, 100);
+                    const ctx_respostasGostasteAtividadeGrafico = document.getElementById('respostasGostasteTransporteGrafico').getContext('2d');
+                    const chart_respostasGostasteAtividadeGrafico = new Chart(ctx_respostasGostasteAtividadeGrafico, {
+                        type: 'pie',
+                        data: {
+                            labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                            datasets: [{
+                                backgroundColor: [
+                                    "rgb(196,1,1)",
+                                    "rgb(197,81,0)",
+                                    "rgb(206,169,2)",
+                                    "rgb(126,169,0)",
+                                    "rgba(9,134,0,0.6)",
+                                ],
+                                data: [
+                                    resposta1GostasteAtividade,
+                                    resposta2GostasteAtividade,
+                                    resposta3GostasteAtividade,
+                                    resposta4GostasteAtividade,
+                                    resposta5GostasteAtividade,
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                position: 'left',
+                                labels: {
+                                    fontSize: 16,
+                                },
+                                onClick: function (e, legendItem, legend) {
+
+                                }
+                            },
+                            plugins: {
+                                outlabels: {
+                                    text: '%p',
+                                    color: 'white',
+                                    stretch: 20,
+                                    font: {
+                                        resizable: false,
+                                        minSize: 90,
+                                        maxSize: 90,
+                                    },
+                                },
+                            },
+                            tooltips: {enabled: false},
+                            hover: {mode: null},
+                            layout: {
+                                padding: {
+                                    left: 30,
+                                    right: 30,
+                                    top: 30,
+                                    bottom: 30
+                                }
+                            },
+                        },
+                    });
+
+
+                    const resposta1Conhecimento = countResponsesWithValue(data.respostas, 1, 101);
+                    const resposta2Conhecimento = countResponsesWithValue(data.respostas, 2, 101);
+                    const resposta3Conhecimento = countResponsesWithValue(data.respostas, 3, 101);
+                    const resposta4Conhecimento = countResponsesWithValue(data.respostas, 4, 101);
+                    const resposta5Conhecimento = countResponsesWithValue(data.respostas, 5, 101);
+                    const ctx_respostasConhecimentoAtividadeGrafico = document.getElementById('respostasSegurancaTransporteGrafico').getContext('2d');
+                    const chart_respostasConhecimentoAtividadeGrafico = new Chart(ctx_respostasConhecimentoAtividadeGrafico, {
+                        type: 'pie',
+                        data: {
+                            labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                            datasets: [{
+                                backgroundColor: [
+                                    "rgb(196,1,1)",
+                                    "rgb(197,81,0)",
+                                    "rgb(206,169,2)",
+                                    "rgb(126,169,0)",
+                                    "rgba(9,134,0,0.6)",
+                                ],
+                                data: [
+                                    resposta1Conhecimento,
+                                    resposta2Conhecimento,
+                                    resposta3Conhecimento,
+                                    resposta4Conhecimento,
+                                    resposta5Conhecimento,
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                position: 'left',
+                                labels: {
+                                    fontSize: 16,
+                                },
+                                onClick: function (e, legendItem, legend) {
+
+                                }
+                            },
+                            plugins: {
+                                outlabels: {
+                                    text: '%p',
+                                    color: 'white',
+                                    stretch: 20,
+                                    font: {
+                                        resizable: false,
+                                        minSize: 90,
+                                        maxSize: 90,
+                                    },
+                                },
+                            },
+                            tooltips: {enabled: false},
+                            hover: {mode: null},
+                            layout: {
+                                padding: {
+                                    left: 30,
+                                    right: 30,
+                                    top: 30,
+                                    bottom: 30
+                                }
+                            },
+                        },
+                    });
+
+
+                    const resposta1Responsavel = countResponsesWithValue(data.respostas, 1, 102);
+                    const resposta2Responsavel = countResponsesWithValue(data.respostas, 2, 102);
+                    const resposta3Responsavel = countResponsesWithValue(data.respostas, 3, 102);
+                    const resposta4Responsavel = countResponsesWithValue(data.respostas, 4, 102);
+                    const resposta5Responsavel = countResponsesWithValue(data.respostas, 5, 102);
+                    const ctx_respostasResponsavelAtividadeGrafico = document.getElementById('respostasConformeTransporteGrafico').getContext('2d');
+                    const chart_respostasResponsavelAtividadeGrafico = new Chart(ctx_respostasResponsavelAtividadeGrafico, {
+                        type: 'pie',
+                        data: {
+                            labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                            datasets: [{
+                                backgroundColor: [
+                                    "rgb(196,1,1)",
+                                    "rgb(197,81,0)",
+                                    "rgb(206,169,2)",
+                                    "rgb(126,169,0)",
+                                    "rgba(9,134,0,0.6)",
+                                ],
+                                data: [
+                                    resposta1Responsavel,
+                                    resposta2Responsavel,
+                                    resposta3Responsavel,
+                                    resposta4Responsavel,
+                                    resposta5Responsavel,
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                position: 'left',
+                                labels: {
+                                    fontSize: 16,
+                                },
+                                onClick: function (e, legendItem, legend) {
+
+                                }
+                            },
+                            plugins: {
+                                outlabels: {
+                                    text: '%p',
+                                    color: 'white',
+                                    stretch: 20,
+                                    font: {
+                                        resizable: false,
+                                        minSize: 90,
+                                        maxSize: 90,
+                                    },
+                                },
+                            },
+                            tooltips: {enabled: false},
+                            hover: {mode: null},
+                            layout: {
+                                padding: {
+                                    left: 30,
+                                    right: 30,
+                                    top: 30,
+                                    bottom: 30
+                                }
+                            },
+                        },
+                    });
+
+
+                    const resposta1Recomendacao = countResponsesWithValue(data.respostas, 1, 103);
+                    const resposta2Recomendacao = countResponsesWithValue(data.respostas, 2, 103);
+                    const resposta3Recomendacao = countResponsesWithValue(data.respostas, 3, 103);
+                    const resposta4Recomendacao = countResponsesWithValue(data.respostas, 4, 103);
+                    const resposta5Recomendacao = countResponsesWithValue(data.respostas, 5, 103);
+                    const ctx_respostasRecomendacaoAtividadeGrafico = document.getElementById('respostasRapidezTransporteGrafico').getContext('2d');
+                    const chart_respostasRecomendacaoAtividadeGrafico = new Chart(ctx_respostasRecomendacaoAtividadeGrafico, {
+                        type: 'pie',
+                        data: {
+                            labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],
+                            datasets: [{
+                                backgroundColor: [
+                                    "rgb(196,1,1)",
+                                    "rgb(197,81,0)",
+                                    "rgb(206,169,2)",
+                                    "rgb(126,169,0)",
+                                    "rgba(9,134,0,0.6)",
+                                ],
+                                data: [
+                                    resposta1Recomendacao,
+                                    resposta2Recomendacao,
+                                    resposta3Recomendacao,
+                                    resposta4Recomendacao,
+                                    resposta5Recomendacao,
+                                ],
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                position: 'left',
+                                labels: {
+                                    fontSize: 16,
+                                },
+                                onClick: function (e, legendItem, legend) {
+
+                                }
+                            },
+                            plugins: {
+                                outlabels: {
+                                    text: '%p',
+                                    color: 'white',
+                                    stretch: 20,
+                                    font: {
+                                        resizable: false,
+                                        minSize: 90,
+                                        maxSize: 90,
+                                    },
+                                },
+                            },
+                            tooltips: {enabled: false},
+                            hover: {mode: null},
+                            layout: {
+                                padding: {
+                                    left: 30,
+                                    right: 30,
+                                    top: 30,
+                                    bottom: 30
+                                }
+                            },
+                        },
+                    });
+
+
+                    {#const resposta1Expectativa = countResponsesWithValue(data.respostas, 1, 5);#}
+                    {#const resposta2Expectativa = countResponsesWithValue(data.respostas, 2, 5);#}
+                    {#const resposta3Expectativa = countResponsesWithValue(data.respostas, 3, 5);#}
+                    {#const resposta4Expectativa = countResponsesWithValue(data.respostas, 4, 5);#}
+                    {#const resposta5Expectativa = countResponsesWithValue(data.respostas, 5, 5);#}
+                    {#const ctx_respostasExpectativaAtividadeGrafico = document.getElementById('respostasExpectativaAtividadeGrafico').getContext('2d');#}
+                    {#const chart_respostasExpectativaAtividadeGrafico = new Chart(ctx_respostasExpectativaAtividadeGrafico, {#}
+                    {#    type: 'pie',#}
+                    {#    data: {#}
+                    {#        labels: ["resposta 1", "resposta 2", "resposta 3", "resposta 4", "resposta 5"],#}
+                    {#        datasets: [{#}
+                    {#            backgroundColor: [#}
+                    {#                "rgb(196,1,1)",#}
+                    {#                "rgb(197,81,0)",#}
+                    {#                "rgb(206,169,2)",#}
+                    {#                "rgb(126,169,0)",#}
+                    {#                "rgba(9,134,0,0.6)",#}
+                    {#            ],#}
+                    {#            data: [#}
+                    {#                resposta1Expectativa,#}
+                    {#                resposta2Expectativa,#}
+                    {#                resposta3Expectativa,#}
+                    {#                resposta4Expectativa,#}
+                    {#                resposta5Expectativa,#}
+                    {#            ],#}
+                    {#        }]#}
+                    {#    },#}
+                    {#    options: {#}
+                    {#        responsive: true,#}
+                    {#        legend: {#}
+                    {#            position: 'left',#}
+                    {#            onClick: function (e, legendItem, legend) {#}
+                    {##}
+                    {#            }#}
+                    {#        },#}
+                    {#    },#}
+                    {# });#}
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+            // Outside AJAX success function
+            // You can't use respostasComValor1 and test here because they are defined within the success function's scope
+
+        });
+
+        async function exportarPDF() {
+            // Criar uma instância de jsPDF em orientação retrato e tamanho A4
+            const pdf = new jspdf.jsPDF();
+
+            // Carregar uma imagem da pasta "img"
+            {#const imageElement = document.createElement("img");#}
+            const imageElement = new Image();
+            imageElement.src = "/static/img/logo-navbar.png"; // Caminho para a imagem na pasta
+
+            await new Promise((resolve) => {
+                imageElement.onload = resolve;
+            });
+
+            // Obter o Data URL da imagem carregada
+            const imageData = imageElement.src;
+
+            // Alterar fonte e cor do texto
+            pdf.setFont("Courier", "bolditalic"); // Escolher a família da fonte e o estilo (negrito e itálico)
+            pdf.setFontSize(14); // Definir o tamanho da fonte
+            pdf.setTextColor(128, 128, 128); // Definir a cor do texto (RGB), neste caso vermelho
+
+            // Adicionar a imagem ao PDF
+            let posX4 = 20;
+            let posY4 = 5;
+            const larguraGrafico4 = 155; // Largura em mm
+            const alturaGrafico4 = 25; // Altura em mm
+
+            pdf.addImage(imageData, 'PNG', posX4, posY4, larguraGrafico4, alturaGrafico4);
+
+            // Adicionar texto entre a imagem e os gráficos
+            const posXText = 55;
+            const posYText = 40; // Ajuste a posição Y para que o texto fique entre a imagem e os gráficos
+            pdf.text("Estatística sobre os transportes", posXText, posYText);
+
+            // Capturar os gráficos como imagens
+            const grafico1 = document.getElementById('respostasGostasteTransporteGrafico').toDataURL();
+            const grafico2 = document.getElementById('respostasSegurancaTransporteGrafico').toDataURL();
+            const grafico3 = document.getElementById('respostasConformeTransporteGrafico').toDataURL();
+            const grafico4 = document.getElementById('respostasRapidezTransporteGrafico').toDataURL();
+
+            // Largura e altura do documento PDF
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            {#const pdfHeight = pdf.internal.pageSize.getHeight();#}
+
+            // Calcular a largura e a altura para manter a proporção dos gráficos
+            const larguraGrafico = 100; // Largura em mm
+            const alturaGrafico = 50; // Altura em mm
+
+            {#// Adicionar as imagens ao PDF#}
+            {#const posXGrafico1 = (pdfWidth - larguraGrafico) / 2; // Posição X para centralizar o gráfico#}
+            let posY = 55;
+            {#let posX = (pdfWidth - larguraGrafico) / 2;#}
+            let posX = 10
+            let posX2 = larguraGrafico + 10;
+
+            pdf.setFontSize(8); // Definir o tamanho da fonte
+            pdf.text("Grau de aprovação dos alunos ao transporte", posX, 50);
+            pdf.addImage(grafico1, 'PNG', posX, posY, larguraGrafico, alturaGrafico);
+
+            pdf.text("Grau de conforto dos alunos ao transporte", posX2, 50);
+            pdf.addImage(grafico2, 'PNG', posX2, posY, larguraGrafico, alturaGrafico);
+            posY += alturaGrafico + 30; // Atualizar a posição y para o próximo gráfico, com espaçamento de 10 mm
+
+            pdf.text("Grau de sentimento de segurança dos alunos ao transporte", posX, posY-5);
+            pdf.addImage(grafico3, 'PNG', posX, posY, larguraGrafico, alturaGrafico);
+            {#posY += alturaGrafico + 30; // Atualizar a posição y para o próximo gráfico, com espaçamento de 10 mm#}
+
+            pdf.text("Grau de senseção de rapicez dos alunos ao transporte", posX2, posY-5);
+            pdf.addImage(grafico4, 'PNG', posX2, posY, larguraGrafico, alturaGrafico);
+
+
+            // Salvar o PDF
+            pdf.save('graficos.pdf');
+        }
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+{% endblock scripts %}
+
+{% block content %}
+    <div>
+        <nav aria-label="breadcrumbs" class="breadcrumb">
+            <ul>
+                <li><a href="{% url 'home' %}">Início</a></li>
+                <li class="is-active"><a href="">Dados e Estatísticas</a></li>
+            </ul>
+        </nav>
+        <div style="padding: 3rem 2vw 1rem;">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Dia Aberto</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                        <div class="select">
+                            <select value="{{ diaaberto.id }}" onchange="selectDiaAberto(this)">
+                                {% for dia_aberto in diasabertos %}
+                                    <option value="{{ dia_aberto.id }}"
+                                            {% if diaaberto.id == dia_aberto.id %}selected{% endif %}>{{ dia_aberto }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h2 class="title has-text-grey is-uppercase has-text-centered" style="font-size: 0.9rem">
+                Dia Aberto {{ diaaberto.ano }}
+            </h2>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Transporte:</label>
+                </div>
+                <div class="field-label is-normal">
+                    <label class="label">{{ meios.transporte }}</label>
+                </div>
+
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+{#                            <div class="select">#}
+{#                                <select id="atividade-select">#}
+{#                                    <option value="-1" selected>Geral</option>#}
+{#                                    {% for meio in meios %}#}
+{#                                        <option value="{{ meios.id }}">#}
+{#                                            {{ meios.transporte }}#}
+{#                                        </option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+                            <button class="button is-primary is-outlined" onclick="exportarPDF()">Exportar Gráficos para PDF</button>
+                            <a class="button is-primary is-outlined" href="{% url 'questionarios:exportarcsvTransporte' %}">Exportar para CSV</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {#            <div class="field is-horizontal">#}
+            {#                <div class="field-label is-normal">#}
+            {#                    <label class="label">Atividades</label>#}
+            {#                </div>#}
+            {#                <div class="field-body">#}
+            {#                    <div class="field">#}
+            {#                        <p class="control">#}
+            {#                        <div class="select">#}
+            {#                            <select id="atividade-select">#}
+            {#                                <option value="-1" selected>Geral</option>#}
+            {#                                {% for roteiro in roteiros %}#}
+            {#                                    <option value="{{ roteiro.id }}">{{ roteiro.nome }}</option>#}
+            {#                                {% endfor %}#}
+            {#                            </select>#}
+            {#                            </p>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+            <div class="columns" style="margin-top:30px;">
+                <div class="column">
+                    <p class="title has-text-grey is-uppercase has-text-centered"
+                       style="font-size: 0.9rem; margin-left:100px;margin-top:50px;">
+                        Grau de aprovação dos alunos ao transporte
+                    </p>
+                    <canvas id="respostasGostasteTransporteGrafico"></canvas>
+                    <p class="title has-text-grey is-uppercase has-text-centered"
+                       style="font-size: 0.9rem; margin-left:100px;margin-top:50px;">
+                        Grau de sentimento de segurança dos alunos ao transporte
+                    </p>
+                    <canvas id="respostasSegurancaTransporteGrafico"></canvas>
+                </div>
+                <div class="column">
+                    <p class="title has-text-grey is-uppercase has-text-centered"
+                       style="font-size: 0.9rem; margin-left:100px;margin-top:50px;">
+                        Grau de conforto dos alunos ao transporte
+                    </p>
+                    <canvas id="respostasConformeTransporteGrafico"></canvas>
+                    <p class="title has-text-grey is-uppercase has-text-centered"
+                       style="font-size: 0.9rem; margin-left:100px;margin-top:50px;">
+                        Grau de sensação de rapidez dos alunos ao transporte
+                    </p>
+                    <canvas id="respostasRapidezTransporteGrafico"></canvas>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-full">
+                    <canvas id="duracao-roteiros"></canvas>
+                </div>
+            </div>
+
+
+            <hr>
+        </div>
+
+    </div>
+
+{% endblock content %}
